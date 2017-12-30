@@ -18,10 +18,14 @@ RUN apt-get update && apt-get upgrade -y && \
 
 # build koto
 RUN cd && mkdir tmp && cd tmp && \
-        git clone https://github.com/koto-dev/koto.git && \
-        cd koto && \
-        ./zcutil/fetch-params.sh && \
-        ./zcutil/build.sh --disable-rust -j$(nproc)
+	git clone https://github.com/koto-dev/koto.git && \
+	cd koto && \
+	./zcutil/fetch-params.sh && \
+	./zcutil/build.sh --disable-rust -j$(nproc)
 
 # install binaries and delete all temporary files
 RUN cd /root/tmp/koto/src &&  \
+	cp kotod /usr/local/bin && \
+	cp koto-cli /usr/local/bin && \
+	cp koto-tx /usr/local/bin && \
+	rm -rf /tmp
